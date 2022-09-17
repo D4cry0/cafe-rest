@@ -2,13 +2,20 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
+import { validarCampos,
+         validarJWT,
+         esAdminRole,
+         tieneRol } from '../middlewares/index.js';
+
+import { esRoleValido,
+         emailExiste,
+         existeUsuarioPorId } from '../helpers/db-validators.js';
+
 import { usuarioDelete,
          usuarioGet,
          usuarioPatch,
          usuarioPost,
          usuarioPut } from '../controllers/users.controllers.js';
-import { validarCampos } from '../middlewares/validar-campos.js';
-import { esRoleValido, emailExiste, existeUsuarioPorId } from '../helpers/db-validators.js';
 
 const router = Router();
 
@@ -36,6 +43,9 @@ router.put('/:id', [
 ], usuarioPut ); 
 
 router.delete('/:id', [
+    validarJWT,
+    // esAdminRole,
+    tieneRol('ADMIN_ROLE', 'VENTAS_ROLE'),
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom( existeUsuarioPorId ),
     validarCampos

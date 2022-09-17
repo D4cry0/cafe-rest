@@ -36,7 +36,8 @@ const UsuarioSchema = Schema({
 // OJO debe ser funcion normal por el uso del this
 // con esto eliminado información sensible o no util de la response
 UsuarioSchema.methods.toJSON = function() {
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, _id, password, ...usuario } = this.toObject();
+    usuario.uid = _id;
     return usuario;
 }
 
