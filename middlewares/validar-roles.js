@@ -25,7 +25,7 @@ const tieneRol = ( ...roles ) => {
 
         if( !req.uAuth ){
             return res.status(500).json({
-                msg: 'Se requiere veririfiar el rol sin validar el token primero'
+                msg: 'Se quiere verificar el rol sin validar el token primero'
             });
         }
 
